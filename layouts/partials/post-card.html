@@ -1,5 +1,5 @@
 <article class="post-card">
-  <a href="{{ .RelPermalink }}" tabindex="-1" aria-hidden="true">
+  <a href="{{ .RelPermalink }}" class="post-card__image-link" tabindex="-1" aria-hidden="true">
     <div class="post-card__image-wrap">
       {{ if .Params.image }}
         <img
@@ -8,21 +8,23 @@
           class="post-card__image"
           loading="lazy">
       {{ else }}
-        <div class="post-card__placeholder">🥗</div>
+        <div class="post-card__placeholder">
+          <span>🥗</span>
+        </div>
       {{ end }}
     </div>
   </a>
 
-  <div class="post-card__content">
+  <div class="post-card__body">
     <div class="post-card__meta">
-      <span class="post-card__date">
-        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006. jan. 2." }}</time>
-      </span>
       {{ with (index .Params.categories 0) }}
         <a href="{{ "/categories/" | relURL }}{{ . | urlize }}/" class="post-card__category">
           {{ . }}
         </a>
       {{ end }}
+      <time class="post-card__date" datetime="{{ .Date.Format "2006-01-02" }}">
+        {{ .Date.Format "2006. január 2." }}
+      </time>
     </div>
 
     <h2 class="post-card__title">
@@ -30,14 +32,15 @@
     </h2>
 
     {{ with .Params.description }}
-      <p class="post-card__excerpt">{{ . | truncate 120 }}</p>
+      <p class="post-card__excerpt">{{ . | truncate 180 }}</p>
     {{ else }}
-      <p class="post-card__excerpt">{{ .Summary | truncate 120 }}</p>
+      <p class="post-card__excerpt">{{ .Summary | truncate 180 }}</p>
     {{ end }}
 
     <div class="post-card__footer">
-      <span>{{ .ReadingTime }} perc olvasás</span>
-      <a href="{{ .RelPermalink }}" class="post-card__read-more">Elolvasom →</a>
+      <span class="post-card__author">{{ with .Params.author }}{{ . }}{{ else }}{{ site.Params.author }}{{ end }}</span>
+      <span class="post-card__dot">·</span>
+      <span class="post-card__readtime">{{ .ReadingTime }} perc olvasás</span>
     </div>
   </div>
 </article>

@@ -1,63 +1,78 @@
 {{ define "main" }}
 
-{{/* Hero section */}}
+{{/* HERO — minimal, csak cím + newsletter form (Sage stílus) */}}
 <section class="hero">
-  <div class="container">
+  <div class="container hero__inner">
     <h1 class="hero__title">
-      Diéta & Táplálkozás<br><span>Szakértői Tanácsok</span>
+      Diéta, táplálkozás és egészséges életmód — szakértői cikkek.
     </h1>
-    <p class="hero__description">
-      Tudományosan megalapozott cikkek, receptek és táplálékkiegészítő ajánlók — minden, ami az egészséges életmódhoz kell.
+    <p class="hero__tagline">
+      Iratkozz fel és kapd meg hetente a legjobb tartalmakat.
     </p>
-    <a href="/posts/" class="hero__cta">Összes cikk →</a>
+    <form class="hero__form" action="#" method="post">
+      <input
+        type="email"
+        name="email"
+        placeholder="email@cimed.hu"
+        class="hero__input"
+        required
+        aria-label="Email cím">
+      <button type="submit" class="hero__submit">Feliratkozás</button>
+    </form>
   </div>
 </section>
 
-{{/* Featured posts */}}
-{{ $featured := where (where .Site.RegularPages "Section" "posts") ".Params.featured" true }}
-{{ if $featured }}
-<section class="section-gap">
-  <div class="container">
-    <h2 class="section-title">Kiemelt cikkek</h2>
-    <div class="blog-grid">
-      {{ range first 3 $featured }}
-        {{ partial "post-card.html" . }}
-      {{ end }}
-    </div>
-  </div>
-</section>
-{{ end }}
-
-{{/* Latest posts */}}
+{{/* CIKK FEED — egyoszlopos magazin layout */}}
 {{ $posts := where .Site.RegularPages "Section" "posts" }}
-{{ $latest := $posts | complement $featured }}
-{{ if $latest }}
-<section class="section-gap" style="background: var(--color-gray-100); padding-block: 3rem;">
+{{ if $posts }}
+<section class="post-feed-section">
   <div class="container">
-    <h2 class="section-title">Legújabb cikkek</h2>
-    <div class="blog-grid">
-      {{ range first 6 $latest }}
+    <div class="post-feed">
+      {{ range first 12 $posts }}
         {{ partial "post-card.html" . }}
       {{ end }}
     </div>
-    {{ if gt (len $latest) 6 }}
-    <div style="text-align:center; margin-top: 2rem;">
-      <a href="/posts/" class="hero__cta">Összes cikk megtekintése →</a>
+
+    {{ if gt (len $posts) 12 }}
+    <div class="load-more-wrap">
+      <a href="/posts/" class="load-more-btn">Több cikk megtekintése →</a>
     </div>
     {{ end }}
   </div>
 </section>
 {{ end }}
 
-{{/* Newsletter */}}
-<section class="newsletter">
+{{/* POPULAR TAGS — kép-alapú tag kártyák */}}
+<section class="popular-tags-section">
   <div class="container">
-    <h2 class="newsletter__title">Heti Diéta Tippek</h2>
-    <p class="newsletter__description">Iratkozz fel és kapj hetente szakértői tanácsokat, recepteket és exkluzív ajánlatokat.</p>
-    <form class="newsletter__form" action="#" method="post">
-      <input type="email" name="email" placeholder="email@cimed.hu" class="newsletter__input" required>
-      <button type="submit" class="newsletter__button">Feliratkozás</button>
-    </form>
+    <h2 class="section-eyebrow">Népszerű kategóriák</h2>
+    <div class="popular-tags">
+      <a href="/categories/dietak/" class="tag-card tag-card--diet">
+        <div class="tag-card__overlay">
+          <span class="tag-card__name">Diéták</span>
+        </div>
+      </a>
+      <a href="/categories/receptek/" class="tag-card tag-card--recipes">
+        <div class="tag-card__overlay">
+          <span class="tag-card__name">Receptek</span>
+        </div>
+      </a>
+      <a href="/categories/fogyokura/" class="tag-card tag-card--slimming">
+        <div class="tag-card__overlay">
+          <span class="tag-card__name">Fogyókúra</span>
+        </div>
+      </a>
+      <a href="/categories/taplalekkiegeszitok/" class="tag-card tag-card--supplements">
+        <div class="tag-card__overlay">
+          <span class="tag-card__name">Táplálékkiegészítők</span>
+        </div>
+      </a>
+      <a href="/categories/egeszseges-eletmod/" class="tag-card tag-card--lifestyle">
+        <div class="tag-card__overlay">
+          <span class="tag-card__name">Életmód</span>
+        </div>
+      </a>
+    </div>
   </div>
 </section>
 
