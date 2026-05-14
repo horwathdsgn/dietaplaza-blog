@@ -1,0 +1,35 @@
+{{ define "main" }}
+
+<section class="post-hero">
+  <div class="container">
+    <nav aria-label="Breadcrumb">
+      <ol class="breadcrumb">
+        <li><a href="{{ site.BaseURL }}">Főoldal</a></li>
+        <li aria-current="page">{{ .Title }}</li>
+      </ol>
+    </nav>
+    <h1 class="post-hero__title">{{ .Title }}</h1>
+    {{ with .Params.description }}
+    <p class="post-hero__description">{{ . }}</p>
+    {{ end }}
+    {{ with .Content }}<div class="post-hero__description">{{ . }}</div>{{ end }}
+  </div>
+</section>
+
+<section class="section-gap">
+  <div class="container">
+    {{ if .Pages }}
+    <div class="blog-grid">
+      {{ range .Pages }}
+        {{ partial "post-card.html" . }}
+      {{ end }}
+    </div>
+
+    {{ template "_internal/pagination.html" . }}
+    {{ else }}
+    <p style="color:var(--color-gray-600); text-align:center; padding-block:4rem;">Hamarosan érkeznek a cikkek!</p>
+    {{ end }}
+  </div>
+</section>
+
+{{ end }}

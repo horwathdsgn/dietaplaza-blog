@@ -1,0 +1,40 @@
+// Spruce CSS Framework – teljes konfiguráció és stílusok
+@use 'sprucecss/scss/spruce' as * with (
+  $colors: (
+    'primary': #000000,
+    'secondary': #16A34A,
+    'tertiary': #6C757D,
+    'heading': #000000,
+    'body': #343A40,
+    'link': #16A34A,
+    'link-visited': #15803D,
+    'mark-background': #FFF3CD,
+    'mark-foreground': #000000,
+    'code-background': #F8F9FA,
+    'code-foreground': #343A40,
+    'blockquote': #6C757D,
+    'blockquote-border': #16A34A,
+    'pre-background': #1e1e1e,
+    'pre-foreground': #f8f8f2,
+    'selection-background': #16A34A,
+    'selection-foreground': #FFFFFF,
+    'btn-primary-background': #16A34A,
+    'btn-primary-foreground': #FFFFFF,
+    'btn-primary-border': #16A34A,
+    'btn-secondary-background': transparent,
+    'btn-secondary-foreground': #16A34A,
+    'btn-secondary-border': #16A34A,
+    'table-border': #DEE2E6,
+    'table-caption': #6C757D,
+    'table-head-background': #F8F9FA,
+    'table-head-foreground': #000000,
+    'table-hover-background': #F8F9FA,
+    'table-stripe-background': #F8F9FA,
+  ),
+);
+
+// Egyéni Dietaplaza stílusok
+@use 'custom';
+
+// Spruce alap stílusok generálása
+@include generate-styles;

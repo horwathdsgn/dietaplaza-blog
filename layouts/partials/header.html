@@ -1,0 +1,23 @@
+<header class="site-header">
+  <div class="container">
+    <a href="{{ site.BaseURL }}" class="site-logo">
+      Dieta<span>plaza</span>
+    </a>
+    <nav aria-label="Főnavigáció">
+      <ul class="site-nav">
+        {{ range site.Menus.main }}
+        <li>
+          <a href="{{ .URL }}"{{ if eq $.RelPermalink .URL }} aria-current="page"{{ end }}>
+            {{ .Name }}
+          </a>
+        </li>
+        {{ end }}
+        <li>
+          <a href="{{ site.Params.shopURL }}" class="nav-shop-link" target="_blank" rel="noopener">
+            🛒 Webshop
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

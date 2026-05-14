@@ -1,0 +1,78 @@
+baseURL = "https://dietaplaza.hu/"
+languageCode = "hu-HU"
+title = "Dietaplaza Blog"
+defaultContentLanguage = "hu"
+
+# Build settings
+buildDrafts = false
+buildFuture = false
+
+# Pagination
+[pagination]
+  pagerSize = 12
+  path = "oldal"
+
+# Taxonomies
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
+# Params
+[params]
+  description = "Diéta, táplálkozás, egészséges életmód - szakértői tanácsok és receptek"
+  author = "Dietaplaza"
+  images = ["/images/site/og-default.jpg"]
+  facebook = "https://facebook.com/dietaplaza"
+  instagram = "https://instagram.com/dietaplaza"
+  shopURL = "https://shop.dietaplaza.hu"
+  shopUTMSource = "blog"
+
+# Menu
+[[menu.main]]
+  name = "Diéták"
+  url = "/categories/dietak/"
+  weight = 1
+
+[[menu.main]]
+  name = "Receptek"
+  url = "/categories/receptek/"
+  weight = 2
+
+[[menu.main]]
+  name = "Fogyókúra"
+  url = "/categories/fogyokura/"
+  weight = 3
+
+[[menu.main]]
+  name = "Táplálékkiegészítők"
+  url = "/categories/taplalekkiegeszitok/"
+  weight = 4
+
+[[menu.main]]
+  name = "Rólunk"
+  url = "/pages/rolunk/"
+  weight = 5
+
+# Markup
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    style = "monokai"
+    lineNos = false
+  [markup.tableOfContents]
+    endLevel = 3
+    ordered = false
+    startLevel = 2
+
+# Output formats
+[outputs]
+  home = ["HTML", "RSS"]
+  section = ["HTML", "RSS"]
+
+# Sass / SCSS pipeline
+[build]
+  [build.sass]
+    transpiler = "dartsass"
+    includePaths = ["node_modules"]

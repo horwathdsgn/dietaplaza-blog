@@ -1,0 +1,19 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+{{ partial "seo-meta.html" . }}
+
+{{- $scss := resources.Get "scss/main.scss" }}
+{{- $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") }}
+{{- $css := $scss | css.Sass $opts }}
+{{- if hugo.IsProduction }}
+  {{- $css = $css | minify | fingerprint }}
+{{- end }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}"{{ if hugo.IsProduction }} integrity="{{ $css.Data.Integrity }}"{{ end }}>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="alternate" type="application/rss+xml" title="{{ site.Title }}" href="{{ "index.xml" | absURL }}">
+{{ partial "schema.html" . }}

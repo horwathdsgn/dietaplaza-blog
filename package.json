@@ -1,0 +1,20 @@
+{
+  "name": "hugo-dietaplaza-blog",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "PATH=\"$(pwd)/bin:$PATH\" hugo server -D",
+    "build": "PATH=\"$(pwd)/bin:$PATH\" hugo --minify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "sprucecss": "^2.3.5"
+  },
+  "devDependencies": {
+    "sass-embedded": "^1.99.0"
+  }
+}

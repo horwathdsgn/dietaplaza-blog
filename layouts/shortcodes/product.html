@@ -1,0 +1,25 @@
+{{- $name := .Get "name" -}}
+{{- $url := .Get "url" -}}
+{{- $price := .Get "price" -}}
+{{- $image := .Get "image" -}}
+{{- $description := .Get "description" | default "" -}}
+{{- $utmSource := site.Params.shopUTMSource | default "blog" -}}
+{{- $utmCampaign := .Page.File.ContentBaseName -}}
+{{- $trackingURL := printf "%s?utm_source=%s&utm_campaign=%s" $url $utmSource $utmCampaign -}}
+
+<div class="product-cta">
+  {{ if $image }}
+  <img src="{{ $image }}" alt="{{ $name }}" class="product-cta__image" loading="lazy">
+  {{ end }}
+  <div class="product-cta__info">
+    <h4 class="product-cta__name">{{ $name }}</h4>
+    {{ if $description }}<p class="product-cta__description">{{ $description }}</p>{{ end }}
+    {{ if $price }}<p class="product-cta__price">{{ $price }} Ft</p>{{ end }}
+    <a href="{{ $trackingURL }}"
+       class="product-cta__button"
+       target="_blank"
+       rel="noopener">
+      Megnézem a shopon →
+    </a>
+  </div>
+</div>

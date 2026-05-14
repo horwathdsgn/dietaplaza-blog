@@ -1,0 +1,28 @@
+#!/bin/sh
+# Cross-platform wrapper for Dart Sass (sass-embedded npm package).
+# Hugo's dartsass transpiler requires the native binary in PATH;
+# this script delegates to the platform-specific sass-embedded build.
+
+SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+
+case "$(uname -s)-$(uname -m)" in
+  Darwin-arm64)    PLATFORM="darwin-arm64" ;;
+  Darwin-x86_64)   PLATFORM="darwin-x64" ;;
+  Linux-x86_64)    PLATFORM="linux-x64" ;;
+  Linux-aarch64)   PLATFORM="linux-arm64" ;;
+  Linux-arm64)     PLATFORM="linux-arm64" ;;
+  *)
+    echo "Unsupported platform: $(uname -s)-$(uname -m)" >&2
+    exit 1
+    ;;
+esac
+
+SASS_BIN="$SCRIPT_DIR/node_modules/sass-embedded-$PLATFORM/dart-sass/sass"
+
+if [ ! -x "$SASS_BIN" ]; then
+  echo "Dart Sass not found at $SASS_BIN" >&2
+  echo "Run: npm install" >&2
+  exit 1
+fi
+
+exec "$SASS_BIN" "$@"

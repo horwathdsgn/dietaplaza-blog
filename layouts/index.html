@@ -1,0 +1,64 @@
+{{ define "main" }}
+
+{{/* Hero section */}}
+<section class="hero">
+  <div class="container">
+    <h1 class="hero__title">
+      Diéta & Táplálkozás<br><span>Szakértői Tanácsok</span>
+    </h1>
+    <p class="hero__description">
+      Tudományosan megalapozott cikkek, receptek és táplálékkiegészítő ajánlók — minden, ami az egészséges életmódhoz kell.
+    </p>
+    <a href="/posts/" class="hero__cta">Összes cikk →</a>
+  </div>
+</section>
+
+{{/* Featured posts */}}
+{{ $featured := where (where .Site.RegularPages "Section" "posts") ".Params.featured" true }}
+{{ if $featured }}
+<section class="section-gap">
+  <div class="container">
+    <h2 class="section-title">Kiemelt cikkek</h2>
+    <div class="blog-grid">
+      {{ range first 3 $featured }}
+        {{ partial "post-card.html" . }}
+      {{ end }}
+    </div>
+  </div>
+</section>
+{{ end }}
+
+{{/* Latest posts */}}
+{{ $posts := where .Site.RegularPages "Section" "posts" }}
+{{ $latest := $posts | complement $featured }}
+{{ if $latest }}
+<section class="section-gap" style="background: var(--color-gray-100); padding-block: 3rem;">
+  <div class="container">
+    <h2 class="section-title">Legújabb cikkek</h2>
+    <div class="blog-grid">
+      {{ range first 6 $latest }}
+        {{ partial "post-card.html" . }}
+      {{ end }}
+    </div>
+    {{ if gt (len $latest) 6 }}
+    <div style="text-align:center; margin-top: 2rem;">
+      <a href="/posts/" class="hero__cta">Összes cikk megtekintése →</a>
+    </div>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+{{/* Newsletter */}}
+<section class="newsletter">
+  <div class="container">
+    <h2 class="newsletter__title">Heti Diéta Tippek</h2>
+    <p class="newsletter__description">Iratkozz fel és kapj hetente szakértői tanácsokat, recepteket és exkluzív ajánlatokat.</p>
+    <form class="newsletter__form" action="#" method="post">
+      <input type="email" name="email" placeholder="email@cimed.hu" class="newsletter__input" required>
+      <button type="submit" class="newsletter__button">Feliratkozás</button>
+    </form>
+  </div>
+</section>
+
+{{ end }}

@@ -1,0 +1,59 @@
+{{ if .IsPage }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "{{ with .Params.schema.type }}{{ . }}{{ else }}Article{{ end }}",
+  "headline": {{ .Title | jsonify }},
+  "description": {{ with .Params.description }}{{ . | jsonify }}{{ else }}{{ .Summary | truncate 155 | jsonify }}{{ end }},
+  "image": "{{ with .Params.image }}{{ . | absURL }}{{ else }}{{ index site.Params.images 0 | absURL }}{{ end }}",
+  "datePublished": "{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}",
+  "dateModified": "{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}",
+  "author": {
+    "@type": "Person",
+    "name": "{{ with .Params.author }}{{ . }}{{ else }}{{ site.Params.author }}{{ end }}"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ site.Title | jsonify }},
+    "logo": {
+      "@type": "ImageObject",
+      "url": "{{ "images/site/logo.png" | absURL }}"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ .Permalink }}"
+  }{{ with .Params.schema.wordCount }},
+  "wordCount": {{ . }}{{ end }}
+}
+</script>
+{{ end }}
+
+{{ if not .IsHome }}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Főoldal",
+      "item": "{{ site.BaseURL }}"
+    }{{ if .Section }},
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": {{ .Section | humanize | title | jsonify }},
+      "item": "{{ .Section | absURL }}"
+    }{{ end }}{{ if .IsPage }},
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": {{ .Title | jsonify }},
+      "item": "{{ .Permalink }}"
+    }{{ end }}
+  ]
+}
+</script>
+{{ end }}
