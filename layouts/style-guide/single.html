@@ -1,0 +1,42 @@
+{{ define "main" }}
+
+<article>
+
+  {{/* FEJLÉC — egyszerű (csak cím, leírás, szerző — nincs hero kép a guide-on) */}}
+  <header class="post-header">
+    <div class="container">
+      <div class="post-header__content" style="width: 100%;">
+        <div class="post-meta">
+          <span class="post-meta__date">{{ .Date.Format "2006. január 2." }}</span>
+        </div>
+        <h1 class="post-header__title">{{ .Title }}</h1>
+        {{ with .Params.description }}
+          <p class="post-header__excerpt">{{ . }}</p>
+        {{ end }}
+      </div>
+    </div>
+  </header>
+
+  {{/* TÖRZS — 2 oszlop: sidebar TOC + content */}}
+  <div class="container">
+    <div class="style-guide-layout">
+
+      <aside class="style-guide-sidebar">
+        <div class="style-guide-sidebar__inner">
+          <p class="style-guide-sidebar__title">Tartalom</p>
+          {{ .TableOfContents }}
+        </div>
+      </aside>
+
+      <div class="post-entry style-guide-content">
+        <div class="post-entry__content">
+          {{ .Content }}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</article>
+
+{{ end }}

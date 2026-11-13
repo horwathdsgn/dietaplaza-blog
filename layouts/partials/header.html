@@ -1,7 +1,7 @@
 <header class="site-header">
   <div class="container">
-    <a href="{{ site.BaseURL }}" class="site-logo">
-      Dieta<span>plaza</span>
+    <a href="{{ site.BaseURL }}" class="site-logo" aria-label="Dietaplaza">
+      <img src="{{ "images/site/logo.png" | relURL }}" alt="Dietaplaza" class="site-logo__img">
     </a>
     <nav aria-label="Főnavigáció">
       <ul class="site-nav">
@@ -17,7 +17,14 @@
             Webshop
           </a>
         </li>
+        <li>
+          <button type="button" class="nav-search-btn" aria-label="Keresés" data-search-open>
+            {{ partial "icon.html" "search" }}
+          </button>
+        </li>
       </ul>
     </nav>
   </div>
 </header>
+
+{{ partial "search-modal.html" . }}

@@ -9,8 +9,9 @@ author: "Dietaplaza"
 categories: ["Egészséges életmód", "Fogyókúra"]
 tags: ["cukormentes", "cukor elhagyása", "kihívás", "egészség"]
 
-image: ""
+image: "/images/posts/cukormentesites.jpg"
 imageAlt: "Cukor és édesség — letiltva"
+imageCaption: "Fotó: [Pixabay](https://pixabay.com)"
 featured: false
 
 seo:

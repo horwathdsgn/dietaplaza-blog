@@ -1,40 +1,42 @@
-// Spruce CSS Framework – teljes konfiguráció és stílusok
+// Spruce CSS framework
 @use 'sprucecss/scss/spruce' as * with (
   $colors: (
     'primary': #000000,
-    'secondary': #16A34A,
-    'tertiary': #6C757D,
+    'secondary': #4f7259,
+    'tertiary': #6B7280,
     'heading': #000000,
-    'body': #343A40,
-    'link': #16A34A,
-    'link-visited': #15803D,
+    'body': #15171A,
+    'link': #4f7259,
+    'link-visited': #3a5642,
     'mark-background': #FFF3CD,
     'mark-foreground': #000000,
-    'code-background': #F8F9FA,
-    'code-foreground': #343A40,
-    'blockquote': #6C757D,
-    'blockquote-border': #16A34A,
+    'code-background': #f9f9f9,
+    'code-foreground': #15171A,
+    'blockquote': #6B7280,
+    'blockquote-border': #4f7259,
     'pre-background': #1e1e1e,
     'pre-foreground': #f8f8f2,
-    'selection-background': #16A34A,
+    'selection-background': #4f7259,
     'selection-foreground': #FFFFFF,
-    'btn-primary-background': #16A34A,
+    'btn-primary-background': #4f7259,
     'btn-primary-foreground': #FFFFFF,
-    'btn-primary-border': #16A34A,
+    'btn-primary-border': #4f7259,
     'btn-secondary-background': transparent,
-    'btn-secondary-foreground': #16A34A,
-    'btn-secondary-border': #16A34A,
-    'table-border': #DEE2E6,
-    'table-caption': #6C757D,
-    'table-head-background': #F8F9FA,
+    'btn-secondary-foreground': #4f7259,
+    'btn-secondary-border': #4f7259,
+    'table-border': #e8e8e8,
+    'table-caption': #6B7280,
+    'table-head-background': #f9f9f9,
     'table-head-foreground': #000000,
-    'table-hover-background': #F8F9FA,
-    'table-stripe-background': #F8F9FA,
+    'table-hover-background': #f9f9f9,
+    'table-stripe-background': #f9f9f9,
   ),
 );
 
-// Egyéni Dietaplaza stílusok
 @use 'custom';
 
-// Spruce alap stílusok generálása
+// Generálja Spruce alap stílusokat
 @include generate-styles;
+
+// Custom stílusok ezután → felülírják Spruce-ot
+@include custom.apply;

@@ -1,0 +1,109 @@
+<div class="search-modal" id="searchModal" aria-hidden="true" role="dialog" aria-label="Keresés">
+  <div class="search-modal__overlay" data-search-close></div>
+  <div class="search-modal__panel">
+    <div class="search-modal__input-wrap">
+      <span class="search-modal__icon">{{ partial "icon.html" "search" }}</span>
+      <input
+        type="search"
+        class="search-modal__input"
+        id="searchInput"
+        placeholder="Keress cikkek között…"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Keresés">
+      <button type="button" class="search-modal__close" aria-label="Bezárás" data-search-close>&times;</button>
+    </div>
+    <div class="search-modal__results" id="searchResults" role="listbox" aria-label="Találatok"></div>
+    <p class="search-modal__hint" id="searchHint">Kezdj el gépelni a kereséshez…</p>
+  </div>
+</div>
+
+<script>
+(function() {
+  const modal = document.getElementById('searchModal');
+  const input = document.getElementById('searchInput');
+  const results = document.getElementById('searchResults');
+  const hint = document.getElementById('searchHint');
+  const openBtns = document.querySelectorAll('[data-search-open]');
+  const closeBtns = document.querySelectorAll('[data-search-close]');
+  let index = null;
+
+  function openModal() {
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => input.focus(), 50);
+    if (!index) loadIndex();
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    input.value = '';
+    results.innerHTML = '';
+    hint.style.display = '';
+    hint.textContent = 'Kezdj el gépelni a kereséshez…';
+  }
+
+  function loadIndex() {
+    fetch('{{ "index.json" | absURL }}')
+      .then(r => r.json())
+      .then(data => { index = data; })
+      .catch(() => { hint.textContent = 'A kereső index nem érhető el.'; });
+  }
+
+  function normalize(s) {
+    return (s || '').toString().toLowerCase()
+      .normalize('NFD').replace(/[̀-ͯ]/g, '');
+  }
+
+  function render(items, q) {
+    if (!items.length) {
+      results.innerHTML = '';
+      hint.style.display = '';
+      hint.textContent = 'Nincs találat erre: "' + q + '"';
+      return;
+    }
+    hint.style.display = 'none';
+    results.innerHTML = items.map(p => `
+      <a class="search-result" href="${p.url}">
+        <div class="search-result__main">
+          <div class="search-result__meta">${p.category ? p.category + ' — ' : ''}${p.date || ''}</div>
+          <div class="search-result__title">${p.title}</div>
+          ${p.description ? `<div class="search-result__desc">${p.description}</div>` : ''}
+        </div>
+      </a>
+    `).join('');
+  }
+
+  function search(q) {
+    if (!index) return;
+    const nq = normalize(q.trim());
+    if (!nq) {
+      results.innerHTML = '';
+      hint.style.display = '';
+      hint.textContent = 'Kezdj el gépelni a kereséshez…';
+      return;
+    }
+    const tokens = nq.split(/\s+/);
+    const hits = index.filter(p => {
+      const hay = normalize([p.title, p.description, p.category].join(' '));
+      return tokens.every(t => hay.includes(t));
+    }).slice(0, 12);
+    render(hits, q);
+  }
+
+  openBtns.forEach(b => b.addEventListener('click', openModal));
+  closeBtns.forEach(b => b.addEventListener('click', closeModal));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openModal(); }
+  });
+  let t;
+  input.addEventListener('input', () => {
+    clearTimeout(t);
+    t = setTimeout(() => search(input.value), 80);
+  });
+})();
+</script>

@@ -1,139 +1,107 @@
 {{ define "main" }}
 
-{{/* Post Hero */}}
-<section class="post-hero">
-  <div class="container">
-    <nav aria-label="Breadcrumb">
-      <ol class="breadcrumb">
-        <li><a href="{{ site.BaseURL }}">Főoldal</a></li>
-        {{ with .Section }}<li><a href="{{ "/posts/" | relURL }}">Cikkek</a></li>{{ end }}
-        {{ range .Params.categories }}
-        <li><a href="{{ "/categories/" | relURL }}{{ . | urlize }}/">{{ . }}</a></li>
-        {{ end }}
-        <li aria-current="page">{{ .Title | truncate 40 }}</li>
-      </ol>
-    </nav>
+<article>
 
-    <div class="post-hero__meta">
-      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006. január 2." }}</time>
-      <span>·</span>
-      <span>{{ .ReadingTime }} perc olvasás</span>
-      {{ with .Params.author }}<span>·</span><span>{{ . }}</span>{{ end }}
-    </div>
+  {{/* POST FEJLÉC — 2 oszlop: bal meta+cím+szerző, jobb portré kép */}}
+  <header class="post-header">
+    <div class="container">
+      <div class="post-header__columns">
 
-    <h1 class="post-hero__title">{{ .Title }}</h1>
+        <div class="post-header__content">
 
-    {{ with .Params.description }}
-    <p class="post-hero__description">{{ . }}</p>
-    {{ end }}
-
-    {{ if .Params.tags }}
-    <ul class="tag-list" style="margin-top:1rem;">
-      {{ range .Params.tags }}
-      <li><a href="{{ "/tags/" | relURL }}{{ . | urlize }}/" class="tag">{{ . }}</a></li>
-      {{ end }}
-    </ul>
-    {{ end }}
-  </div>
-</section>
-
-{{/* Featured image */}}
-{{ with .Params.image }}
-<img
-  src="{{ . }}"
-  alt="{{ with $.Params.imageAlt }}{{ . }}{{ else }}{{ $.Title }}{{ end }}"
-  class="post-featured-image">
-{{ end }}
-
-{{/* Post layout: content + sidebar */}}
-<div class="container">
-  <div class="post-layout">
-
-    {{/* Main content */}}
-    <div class="post-content">
-      {{ .Content }}
-
-      {{/* Shoprenter products from frontmatter */}}
-      {{ with .Params.shoprenter_products }}
-      <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--color-gray-200);">
-        <h2>Ajánlott termékek</h2>
-        {{ range . }}
-        <div class="product-cta">
-          {{ if .image }}
-          <img src="{{ .image }}" alt="{{ .name }}" class="product-cta__image" loading="lazy">
-          {{ end }}
-          <div class="product-cta__info">
-            <h4 class="product-cta__name">{{ .name }}</h4>
-            {{ with .description }}<p class="product-cta__description">{{ . }}</p>{{ end }}
-            {{ with .price }}<p class="product-cta__price">{{ . }} Ft</p>{{ end }}
-            <a href="{{ .url }}?utm_source={{ site.Params.shopUTMSource }}&utm_campaign={{ $.File.ContentBaseName }}"
-               class="product-cta__button"
-               target="_blank"
-               rel="noopener">
-              Megnézem a shopon →
-            </a>
+          <div class="post-meta">
+            <span class="post-meta__date">{{ .Date.Format "2006. január 2." }}</span>
+            {{ with (index .Params.categories 0) }}
+              <span class="post-meta__dash">–</span>
+              <span class="post-meta__tags">
+                <a href="{{ "/categories/" | relURL }}{{ . | urlize }}/">{{ . }}</a>
+              </span>
+            {{ end }}
           </div>
+
+          <h1 class="post-header__title">{{ .Title }}</h1>
+
+          {{ with .Params.description }}
+            <p class="post-header__excerpt">{{ . }}</p>
+          {{ end }}
+
+          <div class="post-header__author">
+            <span class="post-author">írta
+              {{ with .Params.author }}
+                <a href="#">{{ . }}</a>
+              {{ else }}
+                <a href="#">{{ site.Params.author }}</a>
+              {{ end }}
+            </span>
+            <span class="post-readtime">({{ .ReadingTime }} perc olvasás)</span>
+          </div>
+
+        </div>
+
+        {{ with .Params.image }}
+        <figure class="post-header__image">
+          <img
+            src="{{ . }}"
+            alt="{{ with $.Params.imageAlt }}{{ . }}{{ else }}{{ $.Title }}{{ end }}">
+          {{ with $.Params.imageCaption }}
+          <figcaption class="post-header__image-caption">{{ . | markdownify }}</figcaption>
+          {{ end }}
+        </figure>
+        {{ end }}
+
+      </div>
+    </div>
+  </header>
+
+  {{/* TÖRZS — single column */}}
+  <div class="container">
+    <div class="post-entry">
+      <div class="post-entry__content">
+        {{ .Content }}
+
+        {{/* Shoprenter termékek */}}
+        {{ with .Params.shoprenter_products }}
+        <div class="post-products">
+          <h2>Ajánlott termékek</h2>
+          {{ range . }}
+          <div class="product-cta">
+            {{ if .image }}<img src="{{ .image }}" alt="{{ .name }}" class="product-cta__image" loading="lazy">{{ end }}
+            <div class="product-cta__info">
+              <h3 class="product-cta__name">{{ .name }}</h3>
+              {{ with .description }}<p class="product-cta__description">{{ . }}</p>{{ end }}
+              {{ with .price }}<p class="product-cta__price">{{ . }} Ft</p>{{ end }}
+              <a href="{{ .url }}?utm_source={{ site.Params.shopUTMSource }}&utm_campaign={{ $.File.ContentBaseName }}"
+                 class="product-cta__button" target="_blank" rel="noopener">Megnézem {{ partial "icon.html" "arrow-right" }}</a>
+            </div>
+          </div>
+          {{ end }}
         </div>
         {{ end }}
       </div>
-      {{ end }}
 
-      {{/* Post navigation */}}
-      <nav style="display:flex; justify-content:space-between; gap:1rem; margin-top:3rem; padding-top:2rem; border-top:1px solid var(--color-gray-200); font-size:0.9rem;">
-        {{ with .PrevInSection }}
-        <a href="{{ .RelPermalink }}" style="color:var(--color-accent); text-decoration:none;">← {{ .Title | truncate 50 }}</a>
-        {{ end }}
-        {{ with .NextInSection }}
-        <a href="{{ .RelPermalink }}" style="color:var(--color-accent); text-decoration:none; margin-left:auto;">{{ .Title | truncate 50 }} →</a>
-        {{ end }}
-      </nav>
-    </div>
+      {{/* CTA BOX — Sage stílus, sötét háttér + fehér gomb */}}
+      <aside class="post-cta">
+        <div class="post-cta__inner">
+          <h2 class="post-cta__title">Légy a Dietaplaza tagja</h2>
+          <p class="post-cta__text">Iratkozz fel és kapd meg minden cikkünket egyenesen az emailedbe.</p>
+          <a href="#" class="post-cta__button">Feliratkozás</a>
+          <small class="post-cta__small">Már tag vagy? <a href="#">Jelentkezz be.</a></small>
+        </div>
+      </aside>
 
-    {{/* Sidebar */}}
-    <aside class="post-sidebar">
-
-      {{/* Table of Contents */}}
-      {{ if .TableOfContents }}
-      <div class="toc">
-        <div class="toc__title">Tartalomjegyzék</div>
-        {{ .TableOfContents }}
-      </div>
-      {{ end }}
-
-      {{/* Related posts */}}
-      {{ $related := .Site.RegularPages.Related . | first 4 }}
-      {{ with $related }}
-      <div>
-        <div class="toc__title" style="font-size:0.875rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; color:var(--color-gray-600); margin-bottom:0.75rem;">Kapcsolódó cikkek</div>
-        <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:0.75rem;">
-          {{ range . }}
-          <li>
-            <a href="{{ .RelPermalink }}" style="font-size:0.875rem; color:#000; text-decoration:none; line-height:1.4; display:block;">
-              {{ .Title }}
-            </a>
-            <span style="font-size:0.75rem; color:var(--color-gray-600);">{{ .Date.Format "2006. jan. 2." }}</span>
-          </li>
+      {{/* Tag-ek */}}
+      {{ if .Params.tags }}
+      <footer class="post-entry__footer">
+        <ul class="tag-list">
+          {{ range .Params.tags }}
+          <li><a href="{{ "/tags/" | relURL }}{{ . | urlize }}/" class="tag">{{ . }}</a></li>
           {{ end }}
         </ul>
-      </div>
+      </footer>
       {{ end }}
-
-      {{/* Shop CTA */}}
-      <div style="background:#F0FDF4; border-radius:12px; padding:1.5rem; text-align:center;">
-        <div style="font-size:2rem; margin-bottom:0.75rem;">🛒</div>
-        <h3 style="margin:0 0 0.5rem; font-size:1rem; color:#000;">Dietaplaza Webshop</h3>
-        <p style="font-size:0.875rem; color:var(--color-gray-600); margin-bottom:1rem;">Prémium táplálékkiegészítők és diétás termékek</p>
-        <a href="{{ site.Params.shopURL }}?utm_source=blog&utm_campaign=sidebar"
-           class="hero__cta"
-           target="_blank"
-           rel="noopener"
-           style="font-size:0.875rem; padding:0.6rem 1.25rem;">
-          Megnézem →
-        </a>
-      </div>
-
-    </aside>
+    </div>
   </div>
-</div>
+
+</article>
 
 {{ end }}

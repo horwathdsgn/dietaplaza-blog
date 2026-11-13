@@ -1,76 +1,97 @@
 {{ define "main" }}
 
-{{/* HERO — minimal, csak cím + newsletter form (Sage stílus) */}}
+{{/* HERO — balra zárt */}}
 <section class="hero">
-  <div class="container hero__inner">
-    <h1 class="hero__title">
-      Diéta, táplálkozás és egészséges életmód — szakértői cikkek.
-    </h1>
-    <p class="hero__tagline">
-      Iratkozz fel és kapd meg hetente a legjobb tartalmakat.
-    </p>
-    <form class="hero__form" action="#" method="post">
-      <input
-        type="email"
-        name="email"
-        placeholder="email@cimed.hu"
-        class="hero__input"
-        required
-        aria-label="Email cím">
-      <button type="submit" class="hero__submit">Feliratkozás</button>
-    </form>
+  <div class="container">
+    <div class="hero__inner">
+      <h1 class="hero__title">
+        Diéta Pláza&nbsp;– Iránytű a fogyásban.
+      </h1>
+      <p class="hero__tagline">
+        A tartós karcsúságnak nincs titka. Átfogó tudás, eszközök, elköteleződés szükségesek hozzá. Utóbbi csak rajtad múlik&nbsp;– az első kettőért vagyunk mi.
+      </p>
+      <form class="hero__form" action="#" method="post">
+        <input
+          type="email"
+          name="email"
+          placeholder="email@cimed.hu"
+          class="hero__input"
+          required
+          aria-label="Email cím">
+        <button type="submit" class="hero__submit">Feliratkozás</button>
+      </form>
+    </div>
   </div>
 </section>
 
-{{/* CIKK FEED — egyoszlopos magazin layout */}}
 {{ $posts := where .Site.RegularPages "Section" "posts" }}
 {{ if $posts }}
 <section class="post-feed-section">
   <div class="container">
-    <div class="post-feed">
-      {{ range first 12 $posts }}
-        {{ partial "post-card.html" . }}
+
+    {{/* TOP — bal: 1 nagy featured, jobb: 2x2 grid 4 kisebb kártyával */}}
+    {{ if $posts }}
+    <div class="post-feed-top">
+
+      {{/* Bal: featured */}}
+      {{ with index $posts 0 }}
+      <div class="post-feed-top__featured">
+        {{ partial "post-card.html" (dict "Page" . "Variant" "featured") }}
+      </div>
+      {{ end }}
+
+      {{/* Jobb: 2x2 grid */}}
+      {{ $small := after 1 (first 5 $posts) }}
+      {{ if $small }}
+      <div class="post-feed-top__small">
+        {{ range $small }}
+          {{ partial "post-card.html" (dict "Page" . "Variant" "small") }}
+        {{ end }}
+      </div>
+      {{ end }}
+
+    </div>
+    {{ end }}
+
+    {{/* 3. REGULAR — 6+. cikk, 3 oszlopos grid */}}
+    {{ $rest := after 5 (first 14 $posts) }}
+    {{ if $rest }}
+    <div class="post-feed-regular">
+      {{ range $rest }}
+        {{ partial "post-card.html" (dict "Page" . "Variant" "regular") }}
       {{ end }}
     </div>
+    {{ end }}
 
-    {{ if gt (len $posts) 12 }}
+    {{ if gt (len $posts) 14 }}
     <div class="load-more-wrap">
       <a href="/posts/" class="load-more-btn">Több cikk megtekintése →</a>
     </div>
     {{ end }}
+
   </div>
 </section>
 {{ end }}
 
-{{/* POPULAR TAGS — kép-alapú tag kártyák */}}
+{{/* POPULAR TAGS */}}
 <section class="popular-tags-section">
   <div class="container">
-    <h2 class="section-eyebrow">Népszerű kategóriák</h2>
+    <p class="section-eyebrow">Népszerű kategóriák</p>
     <div class="popular-tags">
       <a href="/categories/dietak/" class="tag-card tag-card--diet">
-        <div class="tag-card__overlay">
-          <span class="tag-card__name">Diéták</span>
-        </div>
+        <div class="tag-card__overlay"><span class="tag-card__name">Diéták</span></div>
       </a>
       <a href="/categories/receptek/" class="tag-card tag-card--recipes">
-        <div class="tag-card__overlay">
-          <span class="tag-card__name">Receptek</span>
-        </div>
+        <div class="tag-card__overlay"><span class="tag-card__name">Receptek</span></div>
       </a>
       <a href="/categories/fogyokura/" class="tag-card tag-card--slimming">
-        <div class="tag-card__overlay">
-          <span class="tag-card__name">Fogyókúra</span>
-        </div>
+        <div class="tag-card__overlay"><span class="tag-card__name">Fogyókúra</span></div>
       </a>
       <a href="/categories/taplalekkiegeszitok/" class="tag-card tag-card--supplements">
-        <div class="tag-card__overlay">
-          <span class="tag-card__name">Táplálékkiegészítők</span>
-        </div>
+        <div class="tag-card__overlay"><span class="tag-card__name">Táplálékkiegészítők</span></div>
       </a>
       <a href="/categories/egeszseges-eletmod/" class="tag-card tag-card--lifestyle">
-        <div class="tag-card__overlay">
-          <span class="tag-card__name">Életmód</span>
-        </div>
+        <div class="tag-card__overlay"><span class="tag-card__name">Életmód</span></div>
       </a>
     </div>
   </div>

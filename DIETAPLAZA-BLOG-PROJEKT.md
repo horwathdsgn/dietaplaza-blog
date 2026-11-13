@@ -237,7 +237,7 @@ $colors: (
 // Font stack
 $font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 
                    'Helvetica Neue', Arial, sans-serif;
-$font-family-heading: 'Inter', $font-family-base;
+$font-family-heading: 'Poppins', $font-family-base;
 
 // Font sizes (Spruce conventions)
 $font-sizes: (
@@ -756,7 +756,7 @@ jobs:
   
   // Fonts
   $font-family-base: (-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif),
-  $font-family-heading: ('Inter', -apple-system, BlinkMacSystemFont, sans-serif),
+  $font-family-heading: ('Poppins', -apple-system, BlinkMacSystemFont, sans-serif),
 );
 
 // Custom styles (Sage design)
@@ -782,7 +782,7 @@ $colors: (
 
 // Typography
 $font-family-base: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif !default;
-$font-family-heading: 'Inter', $font-family-base !default;
+$font-family-heading: 'Poppins', $font-family-base !default;
 
 // Spacing (8px grid)
 $spacers: (

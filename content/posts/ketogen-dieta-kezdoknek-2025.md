@@ -9,7 +9,7 @@ author: "Dietaplaza"
 categories: ["Diéták", "Fogyókúra"]
 tags: ["ketogén diéta", "keto", "alacsony szénhidrát", "zsírégetés", "fogyás"]
 
-image: ""
+image: "/images/posts/ketogen-dieta.jpg"
 imageAlt: "Ketogén diétás ételek — avokádó, tojás, sajt, bacon"
 featured: true
 
