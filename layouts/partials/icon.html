@@ -1,0 +1,7 @@
+{{- /*
+  Icon partial — beolvas egy SVG-t az assets/icons/ mappából és inline-olja.
+  Használat: {{ partial "icon.html" "instagram" }}
+*/ -}}
+{{- with resources.Get (printf "icons/%s.svg" .) -}}
+{{- .Content | safeHTML -}}
+{{- end -}}

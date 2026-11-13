@@ -1,5 +1,26 @@
 {{ define "main" }}
 
+{{ if or (eq .Type "categories") (eq .Type "tags") }}
+
+{{/* KATEGÓRIA / CÍMKE OLDAL — Rólunk-mintás fejléc */}}
+<header class="post-header">
+  <div class="container">
+    <div class="post-header__columns">
+      <div class="post-header__content">
+        <h1 class="post-header__title">{{ .Title }}</h1>
+        {{ with .Description }}
+          <p class="post-header__excerpt">{{ . }}</p>
+        {{ end }}
+        {{ with .Content }}
+          <div class="post-header__excerpt">{{ . }}</div>
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</header>
+
+{{ else }}
+
 <section class="post-hero">
   <div class="container">
     <nav aria-label="Breadcrumb">
@@ -16,12 +37,14 @@
   </div>
 </section>
 
+{{ end }}
+
 <section class="section-gap">
   <div class="container">
     {{ if .Pages }}
-    <div class="blog-grid">
+    <div class="post-feed-regular">
       {{ range .Pages }}
-        {{ partial "post-card.html" . }}
+        {{ partial "post-card.html" (dict "Page" . "Variant" "regular") }}
       {{ end }}
     </div>
 

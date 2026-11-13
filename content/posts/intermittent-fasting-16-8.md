@@ -9,7 +9,7 @@ author: "Dietaplaza"
 categories: ["Fogyókúra"]
 tags: ["intermittent fasting", "böjt", "16/8", "fogyás"]
 
-image: ""
+image: "/images/posts/intermittent-fasting.jpg"
 imageAlt: "Óra és tányér — időszakos böjt szimbólum"
 featured: false
 

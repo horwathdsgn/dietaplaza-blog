@@ -2,6 +2,7 @@ baseURL = "https://dietaplaza.hu/"
 languageCode = "hu-HU"
 title = "Dietaplaza Blog"
 defaultContentLanguage = "hu"
+removePathAccents = true
 
 # Build settings
 buildDrafts = false
@@ -62,13 +63,13 @@ buildFuture = false
     style = "monokai"
     lineNos = false
   [markup.tableOfContents]
-    endLevel = 3
+    endLevel = 2
     ordered = false
     startLevel = 2
 
 # Output formats
 [outputs]
-  home = ["HTML", "RSS"]
+  home = ["HTML", "RSS", "JSON"]
   section = ["HTML", "RSS"]
 
 # Sass / SCSS pipeline

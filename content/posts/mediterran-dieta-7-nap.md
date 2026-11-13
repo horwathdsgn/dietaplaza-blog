@@ -9,7 +9,7 @@ author: "Dietaplaza"
 categories: ["Diéták", "Receptek"]
 tags: ["mediterrán diéta", "étrend", "egészséges életmód", "receptek"]
 
-image: ""
+image: "/images/posts/mediterran-dieta.jpg"
 imageAlt: "Mediterrán ételek — olívaolaj, paradicsom, hal, zöldségek"
 featured: false
 
